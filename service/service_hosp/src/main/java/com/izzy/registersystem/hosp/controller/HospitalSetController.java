@@ -9,6 +9,7 @@ import com.izzy.registersystem.model.hosp.HospitalSet;
 import com.izzy.registersystem.vo.hosp.HospitalSetQueryVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.jsqlparser.expression.operators.relational.RegExpMySQLOperator;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,6 +69,48 @@ public class HospitalSetController {
         //签名密钥
         hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + new Random().nextInt(1000)));
         return hospitalSetService.save(hospitalSet) ? Result.ok() : Result.fail();
+    }
+
+    @ApiOperation(value = "医院设置 - 根据ID获取")
+    @GetMapping("/getHospitalSet/{id}")
+    public Result getHospitalSet(@PathVariable Long id) {
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        return Result.ok(hospitalSet);
+    }
+
+    @ApiOperation(value = "医院设置 - 修改")
+    @PostMapping("/updateHospitalSet")
+    public Result updateHospitalSet(@RequestBody HospitalSet hospitalSet) {
+        boolean flag = hospitalSetService.updateById(hospitalSet);
+        return flag ? Result.ok() : Result.fail();
+    }
+
+    @ApiOperation(value = "医院设置 - 批量删除")
+    @DeleteMapping("/batchRemove")
+    public Result batchRemoveHospitalSet(@RequestBody List<Long> idList) {
+        boolean flag = hospitalSetService.removeByIds(idList);
+        return flag ? Result.ok() : Result.fail();
+    }
+
+    @ApiOperation(value = "医院设置 - 锁定&解锁")
+    @PutMapping("/lockHospitalSet/{id}/{status}")
+    public Result lockHospitalSet(@PathVariable Long id,
+                                   @PathVariable Integer status) {
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        hospitalSet.setStatus(status);
+        boolean flag = hospitalSetService.updateById(hospitalSet);
+        return flag ? Result.ok() : Result.fail();
+    }
+
+    @ApiOperation(value = "医院设置 -  发送签名和密钥")
+    @PutMapping("/sendKey/{id}")
+    public Result sendKey(@PathVariable Long id) {
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        String signKey = hospitalSet.getSignKey();
+        String hospitalCode = hospitalSet.getHospitalCode();
+        //TODO
+
+        return Result.ok();
     }
 
 }
