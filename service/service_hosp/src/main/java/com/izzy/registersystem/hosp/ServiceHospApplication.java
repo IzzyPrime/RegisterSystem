@@ -1,2 +1,15 @@
-package com.izzy.registersystem.hosp;public class ServiceHospApplication {
+package com.izzy.registersystem.hosp;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * @author Izzy
+ * @date 2021-04-02 09:35:23
+ */
+@SpringBootApplication
+public class ServiceHospApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ServiceHospApplication.class, args);
+    }
 }
