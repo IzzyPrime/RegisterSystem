@@ -28,6 +28,11 @@
             <artifactId>model</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.izzy.registersystem</groupId>
+            <artifactId>common_util</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <!--web-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
