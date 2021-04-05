@@ -5,12 +5,12 @@ import com.izzy.registersystem.common.result.Result;
 import com.izzy.registersystem.model.cmn.Dict;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -32,5 +32,18 @@ public class DictController {
         return Result.ok(list);
     }
 
+    @ApiOperation(value = "数据字典导出")
+    @GetMapping("/exportData")
+    public Result exportData(HttpServletResponse response) {
+        dictService.exportDictData(response);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "数据字典导入")
+    @PostMapping("importData")
+    public Result importData(MultipartFile file) {
+        dictService.importDictData(file);
+        return Result.ok();
+    }
 
 }
